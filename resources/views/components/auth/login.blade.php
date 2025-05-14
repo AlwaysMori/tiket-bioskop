@@ -1,13 +1,14 @@
 <div class="w-full max-w-md p-6">
     <h2 class="text-2xl font-bold text-gray-900 mb-6 font-poppins text-center">Masuk ke Akun</h2>
-    <form class="space-y-4">
+    <form class="space-y-4" method="POST" action="/login">
+        @csrf
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1 font-poppins">Email</label>
-            <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-poppins" required>
+            <input type="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-poppins" required>
         </div>
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1 font-poppins">Password</label>
-            <input type="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-poppins" required>
+            <input type="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-poppins" required>
         </div>
         <div class="flex items-center justify-between">
             <label class="flex items-center">
