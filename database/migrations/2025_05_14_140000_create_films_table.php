@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('films', function (Blueprint $table) {
             $table->id('id_film');
-            $table->string('nama_film');
-            $table->text('deskripsi_film');
+            $table->string('title');
             $table->string('genre');
-            $table->string('durasi_film');
-            $table->decimal('rating', 2, 1)->default(0);
+            $table->integer('duration');
+            $table->enum('status', ['showing', 'coming soon', 'ended']);
+            $table->enum('studio', ['studio 1', 'studio 2', 'studio 3','studio 4']);
+            $table->timestamp('release_date')->useCurrent();
+            $table->string('poster_file')->nullable();
+            $table->text('description');
             $table->timestamps();
         });
     }

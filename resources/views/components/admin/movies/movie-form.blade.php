@@ -1,4 +1,4 @@
-<form action="#" method="POST" enctype="multipart/form-data" class="bg-white neo-shadow rounded-2xl p-8 max-w-xl mx-auto space-y-6">
+<form action="{{ route('admin.movies.store') }}" method="POST" enctype="multipart/form-data" class="bg-white neo-shadow rounded-2xl p-8 max-w-xl mx-auto space-y-6">
     @csrf
     <h2 class="text-xl font-bold text-sky-600 mb-4">Add New Movie</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
