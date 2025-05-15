@@ -5,12 +5,22 @@
             <h2 class="text-2xl font-semibold text-sky-500">Movie Catalog</h2>
             <span class="text-sm text-gray-400">List of all movies in the system.</span>
         </div>
-        <button class="neo-button bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-400/90 hover:to-sky-500/90 text-white font-semibold py-2.5 px-4 rounded-xl flex items-center transition-all duration-200 gap-2">
+        <button id="openAddMovieModal" type="button" class="neo-button bg-gradient-to-r from-sky-400 to-sky-500 hover:from-sky-400/90 hover:to-sky-500/90 text-white font-semibold py-2.5 px-4 rounded-xl flex items-center transition-all duration-200 gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>
             Add New Movie
         </button>
+    </div>
+
+    <!-- Modal Popup -->
+    <div id="addMovieModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div id="addMovieModalContent" class="bg-white rounded-2xl shadow-xl max-w-lg w-full relative p-0 scale-95 opacity-0 transition-all duration-300">
+            <button id="closeAddMovieModal" type="button" class="absolute top-3 right-3 text-gray-400 hover:text-rose-500 text-2xl font-bold z-10">&times;</button>
+            <div class="p-2">
+                <x-admin.movies.movie-form />
+            </div>
+        </div>
     </div>
 
     <!-- Table Section -->
@@ -102,3 +112,74 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const openBtn = document.getElementById('openAddMovieModal');
+        const closeBtn = document.getElementById('closeAddMovieModal');
+        const modal = document.getElementById('addMovieModal');
+        const modalContent = document.getElementById('addMovieModalContent');
+        // Cancel button in form
+        let cancelBtn = null;
+        // Wait for form to render
+        setTimeout(() => {
+            cancelBtn = document.getElementById('cancelMovieForm');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', closeModal);
+            }
+        }, 300);
+
+        function openModal() {
+            modal.classList.remove('pointer-events-none');
+            modal.classList.remove('opacity-0');
+            modal.classList.add('opacity-100');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+        function closeModal() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('opacity-100');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            }, 250);
+        }
+
+        if (openBtn && closeBtn && modal && modalContent) {
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            // Optional: close modal on backdrop click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+        // Re-bind cancel button after modal opens (in case form is re-rendered)
+        modal.addEventListener('transitionend', function() {
+            cancelBtn = document.getElementById('cancelMovieForm');
+            if (cancelBtn) {
+                cancelBtn.onclick = closeModal;
+            }
+        });
+    });
+</script>
+<style>
+    #addMovieModal.opacity-100 {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+    #addMovieModal.opacity-0 {
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+    #addMovieModalContent.scale-100 {
+        transform: scale(1) !important;
+        opacity: 1 !important;
+    }
+    #addMovieModalContent.scale-95 {
+        transform: scale(0.95) !important;
+        opacity: 0 !important;
+    }
+</style>
