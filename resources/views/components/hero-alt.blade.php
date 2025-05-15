@@ -13,18 +13,18 @@
 
             <!-- CTA Buttons -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-delay-600">
-                <a href="/register" 
-                   class="px-8 py-4 bg-white text-blue-600 rounded-lg font-poppins font-bold 
-                          hover:bg-blue-50 transform transition-all duration-300 
-                          shadow-lg hover:shadow-xl w-full sm:w-auto nav-link-hover text-center">
+                <button onclick="openAuthModal('register')" 
+                        class="px-8 py-4 bg-white text-blue-600 rounded-lg font-poppins font-bold 
+                               hover:bg-blue-50 transform transition-all duration-300 
+                               shadow-lg hover:shadow-xl w-full sm:w-auto nav-link-hover text-center">
                     Daftar Gratis
-                </a>
-                <a href="/login" 
-                   class="px-8 py-4 border-2 border-white text-white rounded-lg font-poppins
-                          hover:bg-white hover:text-blue-600 transform nav-link-hover transition-all duration-300 
-                          w-full sm:w-auto text-center">
+                </button>
+                <button onclick="openAuthModal('login')" 
+                        class="px-8 py-4 border-2 border-white text-white rounded-lg font-poppins
+                               hover:bg-white hover:text-blue-600 transform nav-link-hover transition-all duration-300 
+                               w-full sm:w-auto text-center">
                     Masuk Akun
-                </a>
+                </button>
             </div>
         </div>
     </div>
