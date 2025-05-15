@@ -7,55 +7,160 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Tiket Bioskop (Movie Ticket System)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A web application for movie ticket booking and management.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Project Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This is a Laravel-based web application for booking movie tickets online. The system allows users to browse movies, check showtimes, and purchase tickets.
 
-## Learning Laravel
+## Technologies Used
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Backend**: Laravel (PHP Framework)
+- **Frontend**: Blade Templates, Tailwind CSS
+- **Database**: MySQL (assumed)
+- **Authentication**: Laravel's built-in authentication
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Project Structure
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+d:\Joki\tiket-bioskop\
+├── app/                      # Application code
+│   ├── Console/              # Artisan commands
+│   ├── Exceptions/           # Exception handlers
+│   ├── Http/                 # Controllers, Middleware, Requests
+│   │   ├── Controllers/      # Application controllers
+│   │   ├── Middleware/       # HTTP middleware
+│   │   └── Requests/         # Form requests
+│   ├── Models/               # Eloquent models
+│   └── Providers/            # Service providers
+├── bootstrap/                # Application bootstrap files
+├── config/                   # Configuration files
+├── database/                 # Database migrations and seeds
+│   ├── factories/            # Model factories
+│   ├── migrations/           # Database migrations
+│   └── seeders/              # Database seeders
+├── public/                   # Publicly accessible files
+│   ├── css/                  # Compiled CSS
+│   ├── js/                   # Compiled JavaScript
+│   └── images/               # Public images
+├── resources/                # Uncompiled assets
+│   ├── css/                  # CSS source files
+│   ├── js/                   # JavaScript source files
+│   └── views/                # Blade templates
+│       ├── components/       # Reusable UI components
+│       │   └── hero-alt.blade.php  # Alternative hero section
+│       ├── layouts/          # Layout templates
+│       └── pages/            # Page templates
+├── routes/                   # Application routes
+│   ├── web.php               # Web routes
+│   ├── api.php               # API routes
+│   └── channels.php          # Broadcasting channels
+├── storage/                  # Application storage
+├── tests/                    # Test cases
+├── vendor/                   # Composer dependencies
+├── .env                      # Environment variables
+├── composer.json             # Composer dependencies
+├── package.json              # NPM dependencies
+└── README.md                 # Project documentation
+```
 
-## Laravel Sponsors
+## API Endpoints
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Authentication
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `GET /api/auth/user` - Get authenticated user info
 
-### Premium Partners
+### Movies
+- `GET /api/movies` - List all movies
+- `GET /api/movies/{id}` - Get movie details
+- `GET /api/movies/showing` - Get currently showing movies
+- `GET /api/movies/upcoming` - Get upcoming movies
+- `POST /api/movies` - Add a new movie (admin)
+- `PUT /api/movies/{id}` - Update movie details (admin)
+- `DELETE /api/movies/{id}` - Delete a movie (admin)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Showtimes
+- `GET /api/showtimes` - List all showtimes
+- `GET /api/showtimes/{id}` - Get showtime details
+- `GET /api/movies/{id}/showtimes` - Get showtimes for a specific movie
+- `POST /api/showtimes` - Add a new showtime (admin)
+- `PUT /api/showtimes/{id}` - Update showtime details (admin)
+- `DELETE /api/showtimes/{id}` - Delete a showtime (admin)
 
-## Contributing
+### Theaters
+- `GET /api/theaters` - List all theaters
+- `GET /api/theaters/{id}` - Get theater details
+- `GET /api/theaters/{id}/showtimes` - Get showtimes for a specific theater
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Bookings
+- `GET /api/bookings` - Get user's bookings
+- `GET /api/bookings/{id}` - Get booking details
+- `POST /api/bookings` - Create a new booking
+- `DELETE /api/bookings/{id}` - Cancel a booking
 
-## Code of Conduct
+### Seats
+- `GET /api/showtimes/{id}/seats` - Get available seats for a showtime
+- `POST /api/seats/reserve` - Reserve seats for a booking
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Reviews
+- `GET /api/movies/{id}/reviews` - Get reviews for a movie
+- `POST /api/movies/{id}/reviews` - Add a review for a movie
+- `PUT /api/reviews/{id}` - Update a review
+- `DELETE /api/reviews/{id}` - Delete a review
 
-## Security Vulnerabilities
+## Features
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- User registration and authentication
+- Browse available movies
+- View movie details and showtimes
+- Book and purchase tickets
+- User dashboard to manage bookings
+
+## Installation
+
+1. Clone the repository
+   ```
+   git clone [repository-url]
+   ```
+2. Install PHP dependencies
+   ```
+   composer install
+   ```
+3. Install NPM dependencies
+   ```
+   npm install
+   ```
+4. Create and configure .env file
+   ```
+   cp .env.example .env
+   php artisan key:generate
+   ```
+5. Configure your database in .env
+6. Run migrations and seeders
+   ```
+   php artisan migrate --seed
+   ```
+7. Compile assets
+   ```
+   npm run dev
+   ```
+8. Start the development server
+   ```
+   php artisan serve
+   ```
+
+## Usage
+
+Visit `http://localhost:8000` in your browser to access the application.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+[MIT License](LICENSE)
+
+## Notes
+
+This README is based on limited information and should be updated with complete project details as they become available.
