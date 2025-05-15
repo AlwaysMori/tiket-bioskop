@@ -28,5 +28,12 @@ Route::middleware(['auth']) // Temporarily removed 'auth:sanctum', 'verified'
 
         Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
         Route::post('/movies', [MovieController::class, 'store'])->name('movies.store');
+        Route::get('/movies/{film}', [MovieController::class, 'show'])->name('movies.show');
+        Route::put('/movies/{film}', [MovieController::class, 'update'])->name('movies.update');
+        Route::delete('/movies/{film}', [MovieController::class, 'destroy'])->name('movies.destroy');
+        Route::get('/movies/{film}/detail-component', [MovieController::class, 'detailComponent'])
+            ->name('movies.detail-component');
+        Route::get('/movies/{film}/edit-component', [MovieController::class, 'editComponent'])
+            ->name('movies.edit-component');
         // Add other admin routes here (e.g., users, bookings)
     });
