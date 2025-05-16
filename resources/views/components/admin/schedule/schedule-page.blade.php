@@ -23,9 +23,10 @@
 
         <!-- Studio Content -->
         <div class="relative">
-            <!-- Studio 1 -->
-            <div id="studio-1" class="studio-content opacity-100 transition-opacity duration-300">
-                <h3 class="text-xl font-semibold text-blue-700 mb-4">Studio 1</h3>
+            @for ($i = 1; $i <= 4; $i++)
+            <div id="studio-{{ $i }}" 
+                 class="studio-content transition-opacity duration-300 {{ $i === 1 ? 'opacity-100' : 'opacity-0 hidden absolute top-0 left-0 w-full' }}">
+                <h3 class="text-xl font-semibold text-blue-700 mb-4">Studio {{ $i }}</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     @include('components.admin.schedule.card.schedule-card', [
                         'title' => 'Avengers: Endgame',
@@ -42,42 +43,7 @@
                     ])
                 </div>
             </div>
-
-            <!-- Studio 2 -->
-            <div id="studio-2" class="studio-content opacity-0 transition-opacity duration-300 absolute top-0 left-0 w-full hidden">
-                <h3 class="text-xl font-semibold text-blue-700 mb-4">Studio 2</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    @include('components.admin.schedule.card.schedule-card', [
-                        'title' => 'Inception',
-                        'poster' => 'https://image.tmdb.org/t/p/w300_and_h450_bestv2/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',
-                        'genre' => 'Sci-Fi, Thriller',
-                        'schedules' => ['12:00', '15:00', '18:00', '21:00']
-                    ])
-                </div>
-            </div>
-
-            <!-- Studio 3 -->
-            <div id="studio-3" class="studio-content opacity-0 transition-opacity duration-300 absolute top-0 left-0 w-full hidden">
-                <h3 class="text-xl font-semibold text-blue-700 mb-4">Studio 3</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Empty state or other movies -->
-                </div>
-            </div>
-
-            <!-- Studio 4 -->
-            <div id="studio-4" class="studio-content opacity-0 transition-opacity duration-300 absolute top-0 left-0 w-full hidden">
-                <h3 class="text-xl font-semibold text-blue-700 mb-4">Studio 4</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="col-span-full flex justify-center items-center bg-white rounded-xl p-8">
-                        <div class="text-center">
-                            <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h18M3 16h18" />
-                            </svg>
-                            <p class="text-gray-500">Belum ada film di studio ini</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endfor
         </div>
 
         
