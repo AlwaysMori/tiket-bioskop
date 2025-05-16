@@ -51,25 +51,29 @@
 
         <div class="relative">
             <div id="nowPlaying" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-500 opacity-100 transform translate-x-0">
-                <div class="scroll-reveal">
-                    @include('components.movie-card', [
-                        'id' => 1,
-                        'title' => 'Godzilla x Kong',
-                        'image' => 'https://image.tmdb.org/t/p/w500/qW4crfED8mpNDadPBrs0gYn2kPf.jpg',
-                        'genres' => ['Action', 'Sci-Fi']
-                    ])
-                </div>
+                @foreach($nowPlaying as $movie)
+                    <div class="scroll-reveal">
+                        @include('components.movie-card', [
+                            'id' => $movie['id'],
+                            'title' => $movie['title'],
+                            'image' => $movie['image'],
+                            'genres' => $movie['genres']
+                        ])
+                    </div>
+                @endforeach
             </div>
 
             <div id="comingSoon" class="absolute top-0 left-0 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-500 opacity-0 transform translate-x-full">
-                <div class="scroll-reveal">
-                    @include('components.movie-card', [
-                        'id' => 2,
-                        'title' => 'Deadpool & Wolverine',
-                        'image' => 'https://image.tmdb.org/t/p/w500/4yDGlG8wMFqgNsKxzYOeZHkLpBM.jpg',
-                        'genres' => ['Action', 'Comedy']
-                    ])
-                </div>
+                @foreach($comingSoon as $movie)
+                    <div class="scroll-reveal">
+                        @include('components.movie-card', [
+                            'id' => $movie['id'],
+                            'title' => $movie['title'],
+                            'image' => $movie['image'],
+                            'genres' => $movie['genres']
+                        ])
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

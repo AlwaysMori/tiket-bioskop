@@ -188,18 +188,7 @@
                 </div>
             </nav>
             
-            <!-- Logout Button -->
-            <div class="p-6 opacity-0 fade-up delay-4">
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="w-full flex items-center justify-center space-x-2 bg-white/10 hover:bg-white/20 text-white py-3 px-4 rounded-xl transition-all duration-300 backdrop-blur-sm neo-button">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        <span>Sign Out</span>
-                    </button>
-                </form>
-            </div>
+            
         </aside>
 
         <!-- Main Content -->
