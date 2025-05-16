@@ -35,5 +35,8 @@ Route::middleware(['auth']) // Temporarily removed 'auth:sanctum', 'verified'
             ->name('movies.detail-component');
         Route::get('/movies/{film}/edit-component', [MovieController::class, 'editComponent'])
             ->name('movies.edit-component');
+        Route::get('/schedule', function () {
+            return view('pages.admin.schedule.index');
+        })->name('schedule.index');
         // Add other admin routes here (e.g., users, bookings)
     });
