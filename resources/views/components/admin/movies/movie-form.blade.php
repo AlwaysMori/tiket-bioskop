@@ -37,17 +37,6 @@
                 value="{{ date('Y-m-d') }}"
                 required>
         </div>
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Studio</label>
-            <select name="studio"
-                class="w-full border border-sky-200 bg-sky-50/50 rounded-lg px-3 py-2 shadow-sm focus:ring-2 focus:ring-sky-400 focus:border-sky-500 transition-all duration-200 outline-none">
-                <option value="">Select Studio</option>
-                <option value="Studio 1">Studio 1</option>
-                <option value="Studio 2">Studio 2</option>
-                <option value="Studio 3">Studio 3</option>
-                <option value="Studio 4">Studio 4</option>
-            </select>
-        </div>
         <div class="md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">Upload Poster</label>
             <input type="file" name="poster_file" accept="image/*"

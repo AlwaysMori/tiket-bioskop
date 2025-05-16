@@ -74,24 +74,13 @@
                             min="1" required>
                     </div>
 
-                    <!-- Release Date and Studio -->
-                    <div>
+                    <!-- Release Date -->
+                    <div class="col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Release Date</label>
                         <input type="date" name="release_date" 
                             value="{{ \Carbon\Carbon::parse($movie['release_date'])->format('Y-m-d') }}"
                             class="w-full border border-amber-200 bg-white rounded-lg px-3 py-2 shadow-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-500 transition-all duration-200 outline-none"
                             required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Studio</label>
-                        <select name="studio" class="w-full border border-amber-200 bg-white rounded-lg px-3 py-2 shadow-sm focus:ring-2 focus:ring-amber-400 focus:border-amber-500 transition-all duration-200 outline-none">
-                            <option value="">Select Studio</option>
-                            @foreach(['Studio 1', 'Studio 2', 'Studio 3', 'Studio 4'] as $studio)
-                                <option value="{{ $studio }}" {{ ucfirst($movie['studio']) == $studio ? 'selected' : '' }}>
-                                    {{ $studio }}
-                                </option>
-                            @endforeach
-                        </select>
                     </div>
 
                     <!-- Description -->

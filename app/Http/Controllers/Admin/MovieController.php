@@ -19,7 +19,6 @@ class MovieController extends Controller
                 'genre' => $film->genre,
                 'duration' => $film->duration . ' min',
                 'status' => ucfirst($film->status),
-                'studio' => ucfirst($film->studio),
                 'poster_url' => $film->poster_file ? asset('storage/' . $film->poster_file) : 'https://placehold.co/120x180?text=No+Image',
                 'release_date' => $film->created_at,
                 'description' => $film->description,
@@ -32,33 +31,36 @@ class MovieController extends Controller
     // Store new movie
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'genre' => 'required|string|max:255',
-            'duration' => 'required|integer|min:1',
-            'status' => 'required|in:showing,coming soon,ended',
-            'studio' => 'nullable|in:Studio 1,Studio 2,Studio 3,Studio 4',
-            'poster_file' => 'nullable|image|max:2048',
-            'description' => 'required|string',
-            'release_date' => 'required|date',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'genre' => 'required|string|max:255',
+                'duration' => 'required|integer|min:1',
+                'status' => 'required|in:showing,coming soon,ended',
+                'poster_file' => 'nullable|image|mimes:jpg,jpeg,png|max:5120', // 5MB limit
+                'description' => 'required|string',
+                'release_date' => 'required|date',
+            ], [
+                'poster_file.max' => 'The poster file must not be larger than 5MB.',
+            ]);
 
-        // Studio value normalization
-        if ($validated['studio']) {
-            $validated['studio'] = strtolower($validated['studio']);
+            // Handle poster upload
+            if ($request->hasFile('poster_file')) {
+                $validated['poster_file'] = $request->file('poster_file')->store('posters', 'public');
+            }
+
+            // Tambahkan ini jika ada kolom release_date di tabel
+            $validated['release_date'] = now();
+
+            $film = Film::create($validated);
+
+            return redirect()->route('admin.movies.index')->with('success', 'Movie added successfully!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('error', 'File upload failed! ' . $e->validator->errors()->first('poster_file'));
         }
-
-        // Handle poster upload
-        if ($request->hasFile('poster_file')) {
-            $validated['poster_file'] = $request->file('poster_file')->store('posters', 'public');
-        }
-
-        // Tambahkan ini jika ada kolom release_date di tabel
-        $validated['release_date'] = now();
-
-        $film = Film::create($validated);
-
-        return redirect()->route('admin.movies.index')->with('success', 'Movie added successfully!');
     }
 
     // Show a single movie
@@ -70,7 +72,6 @@ class MovieController extends Controller
             'genre' => $film->genre,
             'duration' => $film->duration,
             'status' => $film->status,
-            'studio' => $film->studio,
             'description' => $film->description,
             'poster_url' => $film->poster_file ? asset('storage/' . $film->poster_file) : null,
             'release_date' => $film->release_date,
@@ -80,33 +81,37 @@ class MovieController extends Controller
     // Update an existing movie
     public function update(Request $request, Film $film)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'genre' => 'required|string|max:255',
-            'duration' => 'required|integer|min:1',
-            'status' => 'required|in:showing,coming soon,ended',
-            'studio' => 'nullable|in:Studio 1,Studio 2,Studio 3,Studio 4',
-            'poster_file' => 'nullable|image|max:2048',
-            'description' => 'required|string',
-            'release_date' => 'required|date',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'genre' => 'required|string|max:255',
+                'duration' => 'required|integer|min:1',
+                'status' => 'required|in:showing,coming soon,ended',
+                'poster_file' => 'nullable|image|mimes:jpg,jpeg,png|max:12120', // 5MB limit
+                'description' => 'required|string',
+                'release_date' => 'required|date',
+            ], [
+                'poster_file.max' => 'The poster file must not be larger than 5MB.',
+            ]);
 
-        if ($validated['studio']) {
-            $validated['studio'] = strtolower($validated['studio']);
-        }
-
-        if ($request->hasFile('poster_file')) {
-            if ($film->poster_file) {
-                Storage::disk('public')->delete($film->poster_file);
+            if ($request->hasFile('poster_file')) {
+                if ($film->poster_file) {
+                    Storage::disk('public')->delete($film->poster_file);
+                }
+                $validated['poster_file'] = $request->file('poster_file')->store('posters', 'public');
             }
-            $validated['poster_file'] = $request->file('poster_file')->store('posters', 'public');
+
+            $film->update($validated);
+
+            return redirect()->route('admin.movies.index')->with('success', 'Movie updated successfully!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('error', 'File upload failed! ' . $e->validator->errors()->first('poster_file'));
         }
-
-        $film->update($validated);
-
-        return redirect()->route('admin.movies.index')->with('success', 'Movie updated successfully!');
     }
-
+    
     // Detail component for a single movie
     public function detailComponent(Film $film)
     {
@@ -116,7 +121,6 @@ class MovieController extends Controller
             'genre' => $film->genre,
             'duration' => $film->duration . ' min',
             'status' => ucfirst($film->status),
-            'studio' => ucfirst($film->studio),
             'poster_url' => $film->poster_file ? asset('storage/' . $film->poster_file) : null,
             'release_date' => $film->release_date,
             'description' => $film->description,
@@ -141,7 +145,6 @@ class MovieController extends Controller
             'genre' => $film->genre,
             'duration' => $film->duration,
             'status' => $film->status,
-            'studio' => $film->studio,
             'poster_url' => $film->poster_file ? asset('storage/' . $film->poster_file) : null,
             'description' => $film->description,
             'release_date' => $film->release_date,

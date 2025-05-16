@@ -26,10 +26,6 @@
                         <p class="font-medium">{{ $movie['duration'] ?? 'N/A' }}</p>
                     </div>
                     <div>
-                        <p class="text-gray-500">Studio</p>
-                        <p class="font-medium">{{ $movie['studio'] ?? 'N/A' }}</p>
-                    </div>
-                    <div>
                         <p class="text-gray-500">Release Date</p>
                         <p class="font-medium">{{ isset($movie['release_date']) ? \Carbon\Carbon::parse($movie['release_date'])->format('F d, Y') : 'N/A' }}</p>
                     </div>

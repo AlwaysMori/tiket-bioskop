@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('genre');
             $table->integer('duration');
             $table->enum('status', ['showing', 'coming soon', 'ended']);
-            $table->enum('studio', ['studio 1', 'studio 2', 'studio 3','studio 4']);
             $table->timestamp('release_date')->useCurrent();
             $table->string('poster_file')->nullable();
             $table->text('description');

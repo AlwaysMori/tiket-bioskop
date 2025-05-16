@@ -34,13 +34,21 @@
                         <th scope="col" class="px-6 py-4 font-semibold text-sky-500">Genre</th>
                         <th scope="col" class="px-6 py-4 font-semibold text-sky-500">Duration</th>
                         <th scope="col" class="px-6 py-4 font-semibold text-sky-500">Release Date</th>
-                        <th scope="col" class="px-6 py-4 font-semibold text-sky-500">Studio</th>
                         <th scope="col" class="px-6 py-4 font-semibold text-sky-500">Status</th>
                         <th scope="col" class="px-6 py-4 text-center font-semibold text-sky-500">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    @forelse ($movies as $movie)
+                    @php
+                        $currentPage = request()->get('page', 1);
+                        $perPage = 5;
+                        $moviesArray = $movies->toArray();
+                        $total = count($moviesArray);
+                        $lastPage = ceil($total / $perPage);
+                        $offset = ($currentPage - 1) * $perPage;
+                        $paginatedMovies = array_slice($moviesArray, $offset, $perPage);
+                    @endphp
+                    @forelse ($paginatedMovies as $movie)
                     <tr class="hover:bg-sky-50/50 transition-colors">
                         <td class="px-6 py-4">
                             <img src="{{ $movie['poster_url'] }}" alt="{{ $movie['title'] }} Poster" class="h-20 w-auto rounded-lg shadow-sm">
@@ -49,7 +57,6 @@
                         <td class="px-6 py-4 text-slate-600">{{ $movie['genre'] }}</td>
                         <td class="px-6 py-4 text-slate-600">{{ $movie['duration'] }}</td>
                         <td class="px-6 py-4 text-slate-600">{{ \Carbon\Carbon::parse($movie['release_date'])->format('M d, Y') }}</td>
-                        <td class="px-6 py-4 text-slate-600">{{ $movie['studio'] ?? 'N/A' }}</td>
                         <td class="px-6 py-4">
                             @php
                                 $statusClass = match(strtolower($movie['status'])) {
@@ -87,7 +94,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-12">
+                        <td colspan="7" class="px-6 py-12">
                             <div class="flex flex-col items-center justify-center text-center">
                                 <div class="bg-sky-50 p-4 rounded-full mb-4">
                                     <svg class="w-8 h-8 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,11 +115,21 @@
         <div class="p-4 border-t border-gray-100">
             <div class="flex items-center justify-between text-sm text-gray-500">
                 <p>
-                    Showing <span class="font-medium">1</span> to <span class="font-medium">{{ count($movies) }}</span> of <span class="font-medium">{{ count($movies) }}</span> results
+                    Showing <span class="font-medium">{{ $offset + 1 }}</span> 
+                    to <span class="font-medium">{{ min($offset + $perPage, $total) }}</span> 
+                    of <span class="font-medium">{{ $total }}</span> results
                 </p>
                 <div class="flex gap-1">
-                    <button disabled class="neo-button px-3 py-1 rounded-lg text-gray-400 bg-gray-50">Previous</button>
-                    <button class="neo-button px-3 py-1 rounded-lg text-sky-500 hover:bg-sky-50">Next</button>
+                    <a href="?page={{ max(1, $currentPage - 1) }}" 
+                       class="neo-button px-3 py-1 rounded-lg {{ $currentPage <= 1 ? 'text-gray-400 bg-gray-50 pointer-events-none' : 'text-sky-500 hover:bg-sky-50' }}"
+                       {{ $currentPage <= 1 ? 'disabled' : '' }}>
+                        Previous
+                    </a>
+                    <a href="?page={{ min($lastPage, $currentPage + 1) }}" 
+                       class="neo-button px-3 py-1 rounded-lg {{ $currentPage >= $lastPage ? 'text-gray-400 bg-gray-50 pointer-events-none' : 'text-sky-500 hover:bg-sky-50' }}"
+                       {{ $currentPage >= $lastPage ? 'disabled' : '' }}>
+                        Next
+                    </a>
                 </div>
             </div>
         </div>

@@ -16,9 +16,8 @@ class Film extends Model
         'genre',
         'duration',
         'status',
-        'studio',
         'poster_file',
         'description',
-        'release_date', // tambahkan ini jika ada kolom release_date
+        'release_date',
     ];
 }
